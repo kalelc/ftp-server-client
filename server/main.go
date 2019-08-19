@@ -24,7 +24,7 @@ func main() {
 
 		handleError(err)
 
-		handleConn(conn)
+		go handleConn(conn)
 	}
 }
 
