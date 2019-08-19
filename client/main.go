@@ -20,7 +20,14 @@ func main() {
 	handleError(err)
 	defer conn.Close()
 
-	io.Copy(os.Stdout, conn)
+	handleConn(conn)
+
+}
+
+func handleConn(src io.Reader) {
+	if _, err := io.Copy(os.Stdout, src); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func handleError(err error) {
