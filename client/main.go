@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"net"
+	"os"
 )
 
 const (
@@ -17,6 +19,8 @@ func main() {
 
 	handleError(err)
 	defer conn.Close()
+
+	io.Copy(os.Stdout, conn)
 }
 
 func handleError(err error) {
