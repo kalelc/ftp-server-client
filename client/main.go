@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"io"
 	"log"
@@ -24,9 +25,12 @@ func main() {
 
 }
 
-func handleConn(src io.Reader) {
-	if _, err := io.Copy(os.Stdout, src); err != nil {
-		log.Fatal(err)
+func handleConn(src io.Writer) {
+	for {
+		reader := bufio.NewReader(os.Stdin)
+		fmt.Print("Enter command: ")
+		text, _ := reader.ReadString('\n')
+		fmt.Fprintf(src, text)
 	}
 }
 

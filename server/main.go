@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"io"
 	"log"
@@ -28,12 +29,14 @@ func main() {
 	}
 }
 
-func handleConn(c net.Conn) {
-	defer c.Close()
+func handleConn(conn net.Conn) {
+	defer conn.Close()
 	for {
-		_, err := io.WriteString(c, time.Now().String()+"\n")
+		_, err := io.WriteString(conn, time.Now().String()+"\n")
 		handleError(err)
 		time.Sleep(1 + time.Second)
+		message, _ := bufio.NewReader(conn).ReadString('\n')
+		fmt.Println(message)
 	}
 }
 
