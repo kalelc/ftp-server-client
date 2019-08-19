@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"net"
+	"path/filepath"
 	"time"
 )
 
@@ -35,9 +36,19 @@ func handleConn(conn net.Conn) {
 		_, err := io.WriteString(conn, time.Now().String()+"\n")
 		handleError(err)
 		time.Sleep(1 + time.Second)
-		message, _ := bufio.NewReader(conn).ReadString('\n')
-		fmt.Println(message)
+		command, _ := bufio.NewReader(conn).ReadString('\n')
+		fmt.Println(command)
+		listDirectory()
+
 	}
+}
+
+func listDirectory() {
+	files, err := filepath.Glob("*")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(files)
 }
 
 func handleError(err error) {
