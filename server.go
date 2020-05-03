@@ -3,10 +3,10 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"io"
 	"log"
 	"net"
 	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -19,27 +19,38 @@ func main() {
 	fmt.Println(server + ":" + port)
 	listener, err := net.Listen("tcp", server+":"+port)
 
-	handleError(err)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	for {
 		conn, err := listener.Accept()
+		if err != nil {
+			log.Fatal(err)
+		}
 
-		handleError(err)
-
-		go handleConn(conn)
+		go handleConnection(conn)
 	}
 }
 
-func handleConn(conn net.Conn) {
+func handleConnection(conn net.Conn) {
 	defer conn.Close()
 	for {
-		_, err := io.WriteString(conn, time.Now().String()+"\n")
-		handleError(err)
-		time.Sleep(1 + time.Second)
-		command, _ := bufio.NewReader(conn).ReadString('\n')
-		fmt.Println(command)
-		listDirectory()
+		command, err := bufio.NewReader(conn).ReadString('\n')
+		if err != nil {
+			log.Fatal(err)
+		}
 
+		time.Sleep(1 + time.Second)
+
+		fmt.Println(string(command))
+
+		if strings.TrimSpace(string(command)) == "ls" {
+			fmt.Println("list directory")
+		} else {
+			fmt.Println("command invalid")
+		}
+		listDirectory()
 	}
 }
 
@@ -49,10 +60,4 @@ func listDirectory() {
 		log.Fatal(err)
 	}
 	fmt.Println(files)
-}
-
-func handleError(err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
 }
