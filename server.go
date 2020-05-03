@@ -7,7 +7,6 @@ import (
 	"net"
 	"path/filepath"
 	"strings"
-	"time"
 )
 
 const (
@@ -41,23 +40,24 @@ func handleConnection(conn net.Conn) {
 			log.Fatal(err)
 		}
 
-		time.Sleep(1 + time.Second)
+		//time.Sleep(1 + time.Second)
 
-		fmt.Println(string(command))
+		//t := time.Now()
+		//myTime := t.Format(time.RFC3339) + "\n"
 
 		if strings.TrimSpace(string(command)) == "ls" {
-			fmt.Println("list directory")
+			conn.Write([]byte(listDirectory()))
 		} else {
-			fmt.Println("command invalid")
+			conn.Write([]byte("Command not found\n"))
 		}
-		listDirectory()
 	}
 }
 
-func listDirectory() {
+func listDirectory() string {
 	files, err := filepath.Glob("*")
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(files)
+	result := strings.Join(files, " ")
+	return result + "\n"
 }

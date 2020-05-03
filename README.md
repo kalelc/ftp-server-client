@@ -8,12 +8,13 @@ This is a simple project using Golang Net Library with Goroutines to replicate F
 
 ### Commands Allowed from Client
 
-- [ ] `ls`
+- [x] `ls`: List the names of the files in the current remote directory.
 
-- [ ] `cd`
+- [ ] `cd`: Change directory on the remote machine.
 
-- [ ] `get`
+- [] `mkdir`: Make a new directory within the current remote directory.
 
-- [ ] `get`
+- [ ] `get`: Copy one file from the remote machine to the local machine.
 
-WIP
+- [] `put`: Copy one file from the local machine to the remote machine.
+
