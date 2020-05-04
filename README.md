@@ -10,9 +10,9 @@ This is a simple project using Golang Net Library with Goroutines to replicate F
 
 - [x] `ls`: List the names of the files in the current remote directory.
 
-- [ ] `cd`: Change directory on the remote machine.
+- [x] `cd`: Change directory on the remote machine.
 
-- [ ] `mkdir`: Make a new directory within the current remote directory.
+- [x] `mkdir`: Make a new directory within the current remote directory.
 
 - [ ] `get`: Copy one file from the remote machine to the local machine.
 
